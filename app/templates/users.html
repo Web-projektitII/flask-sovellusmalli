@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% macro render_user(user) %}
+<tr>
+<td>{{ user.name }}</td>
+<td>{{ user.email }}</td>
+<td class="td-keskitetty">
+<input type="hidden" value="{{ user.id }}" name="users">
+<input type="checkbox" {{ 'checked' if user.active }} {{ 'disabled' if current_user.id == user.id }} value="{{ user.id }}" name="active">
+</td>
+<td class="td-keskitetty">
+{% if current_user.id != user.id %}    
+<a title="poista" class="trash-space" href="#" onclick="poista('{{ user.id }}','{{ user.name }}')">
+<i class="fas fa-trash-alt"></i></a>
+{% endif %}
+</td>
+</tr>
+{% endmacro %}
+
+{% block title %}Flasky users{% endblock %}
+{% block page_content %}
+
+<script>
+function poista(id,nimi){
+let url = "{{ url_for('main.poista') }}";
+if (confirm("Poistetaanko "+nimi+"?")){
+  let formdata = new FormData();
+  formdata.append('id', id);
+  fetch(url, {
+    method: 'POST',
+    body: formdata
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Vastaus:',JSON.stringify(data))
+      location.reload()  
+      })
+    .catch(error => console.log(error));
+  }
+return false;
+}     
+</script>
+
+<div class="page-header">
+    <h1>Users</h1>
+    {% if current_user.is_administrator() %}
+    <form id="lomake" method="POST">
+    <table class="table table-striped">
+    <tr><th>Name</th><th>Email</th><th>Aktiivinen</th><th>Poista</th></tr>    
+        {% for user in users %}
+        {{ render_user(user) }}
+        {% endfor %}
+    </table>
+    <input class="btn btn-primary" type="submit" name="painike" value="Tallenna">
+    </form>
+    {% if pagination %}
+    <div class="pagination">
+    {{ macros.pagination_widget(pagination, '.users') }}
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+
+{% endblock %}
