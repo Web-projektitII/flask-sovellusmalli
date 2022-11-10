@@ -11,11 +11,11 @@ class Config:
         ['true', 'on', '1']
     MAIL_USERNAME = os.environ.get('MAILTRAP_MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAILTRAP_MAIL_PASSWORD')
-    FLASKY_MAIL_SUBJECT_PREFIX = '[Flaskprojekti]'
-    SP_MAIL_SENDER = 'Flaskprojekti Admin <flaskprojekti@example.com>'
-    SP_ADMIN = os.environ.get('SP_ADMIN')
+    FS_MAIL_SUBJECT_PREFIX = '[Flaskprojekti]'
+    FS_MAIL_SENDER = 'Flaskprojekti Admin <flaskprojekti@example.com>'
+    FS_ADMIN = os.environ.get('FS_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SP_POSTS_PER_PAGE = 25
+    FS_POSTS_PER_PAGE = 25
 
     @staticmethod
     def init_app(app):
@@ -46,7 +46,7 @@ class HerokuConfig(Config):
     # MAIL_USE_SSL = os.environ.get('MAILTRAP_MAIL_USE_SSL', 'false')   
     MAIL_USERNAME = os.environ.get('SENDGRID_MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('SENDGRID_MAIL_PASSWORD')
-    SP_MAIL_SENDER = 'wohjelmointi@gmail.com'
+    FS_MAIL_SENDER = 'wohjelmointi@gmail.com'
     # WTF_CSRF_ENABLED = False    
 
 class TestingConfig(Config):

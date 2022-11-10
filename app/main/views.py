@@ -94,7 +94,7 @@ def users():
             flash("Käyttäjälista puuttuu.")
     page = request.args.get('page', 1, type=int)
     pagination = User.query.order_by(User.name).paginate(
-        page, per_page=current_app.config['SP_POSTS_PER_PAGE'],
+        page, per_page=current_app.config['FS_POSTS_PER_PAGE'],
         error_out=False)
     lista = pagination.items
     return render_template('users.html',users=lista,pagination=pagination,page=page)
