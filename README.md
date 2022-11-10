@@ -1,11 +1,6 @@
-Flask-sovellussovellus
-======
+Flask-sovellus
+==============
 
-This repository contains the source code examples for the second edition of my O'Reilly book [Flask Web Development](http://www.flaskbook.com).
+Tämä on Flask-sovellusrunko, jota voi käyttää omien Flask-sovellusten kehittämiseen. Se perustuu Miguel Grinberg kirjan Flask Web Development, second edition, lukuun 10.
 
-The commits and tags in this repository were carefully created to match the sequence in which concepts are presented in the book. Please read the section titled "How to Work with the Example Code" in the book's preface for instructions.
-
-For Readers of the First Edition of the Book
---------------------------------------------
-
-The code examples for the first edition of the book were moved to a different repository: [https://github.com/miguelgrinberg/flasky-first-edition](https://github.com/miguelgrinberg/flasky-first-edition).
+Tekijä: Jukka Aula
