@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flask-sovellus - Edit Profile{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Edit Your Profile</h1>
+</div>
+
+<h2>Kuva</h2>
+<input type="file" id="file-input">
+<p id="status">Valitse kuvatiedosto</p>
+<img style="border:1px solid gray;width:300px;" id="preview" src="/static/default_profile.png">
+
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='S3upload.js') }}"></script>
+{% endblock %}
