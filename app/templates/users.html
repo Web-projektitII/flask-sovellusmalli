@@ -3,7 +3,7 @@
 
 {% macro render_user(user) %}
 <tr>
-<td>{{ user.name }}</td>
+<td><a href="{{ url_for('.edit_profile_admin', id=user.id) }}">{{ user.name }}</a></td>
 <td>{{ user.email }}</td>
 <td class="td-keskitetty">
 <input type="hidden" value="{{ user.id }}" name="users">

@@ -16,16 +16,17 @@ class Config:
     FS_ADMIN = os.environ.get('FS_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     FS_POSTS_PER_PAGE = 25
+    KUVAPALVELU = 'S3'
+    KUVAPOLKU = os.environ.get('S3_DOMAIN')
+    MAX_CONTENT_LENGTH = 1 * 1000 * 1000
 
+    # AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    # AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    
     @staticmethod
     def init_app(app):
         pass
 
-
-class DevelopmentConfig(Config):
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
 class LocalConfig(Config):
     DEBUG = True
@@ -35,8 +36,14 @@ class LocalConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':' + DB_PASSWORD + '@localhost:3306/' + DB_NAME
     # SQLALCHEMY_ECHO = True (dokumentaatio)
     SQLALCHEMY_ECHO = "debug"
-    # WTF_CSRF_ENABLED = False
+    # WTF_CSRF_ENABLED = 
+    KUVAPALVELU = 'local'
+    KUVAPOLKU = 'app/profiilikuvat/'
 
+class DevelopmentConfig(LocalConfig):
+    KUVAPALVELU = 'S3'
+    KUVAPOLKU = os.environ.get('S3_DOMAIN')
+    
 class HerokuConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('CLEARDB_DATABASE_URL')
     SQLALCHEMY_ECHO = "debug"
@@ -54,11 +61,9 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
         'sqlite://'
 
-
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
-
 
 config = {
     'development': DevelopmentConfig,
