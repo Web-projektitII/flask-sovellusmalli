@@ -23,6 +23,8 @@ def index():
 @main.route('/img/')
 @main.route('/img/<path:filename>')
 def img(filename = None):
+    # Profiilikuvat Flask-sovelluskansiossa profiilikuvat,
+    # paitsi oletusprofiilikuva static-kansiossa.
     app = current_app._get_current_object()
     if filename is None:
         return send_from_directory('static','default_profile.png')
@@ -58,6 +60,7 @@ def edit_profile():
 @main.route('/edit-profile-all/', methods=['GET', 'POST'])
 @login_required
 def edit_profile_all():
+    # Profiili, jossa on myös profiilikuva
     form = EditProfileForm()
     app = current_app._get_current_object()
     kuvapalvelu = app.config['KUVAPALVELU']
@@ -227,6 +230,8 @@ def save_local():
     # print("WORKING DIRECTORY:"+cwd)
     app = current_app._get_current_object()
     KUVAPOLKU = app.config['KUVAPOLKU']
+    virhe = ''
+    msg = ''
     try:
         if 'file' in request.files:
             file = request.files['file']
@@ -234,17 +239,18 @@ def save_local():
         app.logger.info(e)
         koko = round(app.config['MAX_CONTENT_LENGTH'] / (1000 * 1000))
         msg = f"Kuvaa ei tallennettu, sen koko saa olla maks. {koko} MB."
-        return json.dumps({'msg':msg})
+        return json.dumps({'virhe':msg})
     if file and file.filename != '' and allowed_file(file.filename):
         kuvanimi = secure_filename(file.filename)
         filename = str(current_user.id) + '_' + kuvanimi
         file.save(os.path.join(KUVAPOLKU, filename))
         msg = f"Tiedosto tallennettiin nimellä {filename}."
     else:
-        msg = "Tiedostoa ei annettu."
+        virhe = "Tiedostoa ei annettu."
     dump = json.dumps({
         'img':kuvanimi,
         'kuva':filename,
-        'msg': msg
+        'msg': msg,
+        'virhe': virhe
         })
     return dump

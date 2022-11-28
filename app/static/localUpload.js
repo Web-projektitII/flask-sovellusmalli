@@ -11,9 +11,14 @@ fetch(url,{
     body:postData})
 .then(response => response.json())
 .then(success => {
-    document.querySelector('#img').value = file.name;
-    console.log(success)
-    alert(success.msg)
+    console.log(success)  
+    if (success.msg){
+        document.querySelector('#img').value = file.name;
+        alert(success.msg)
+    }
+    else if (virhe) {
+        alert(success.virhe)
+    }    
     })
 .catch(error => {
     console.log(error)

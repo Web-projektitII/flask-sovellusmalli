@@ -12,10 +12,15 @@ fetch(s3Data.url,{
     body:postData})
 .then(response => response.text())
 .then(success => {
-    document.querySelector('#img').value = file.name;
-    console.log(success)
-    alert(success.msg)
-    })
+  console.log(success)  
+  if (success.msg){
+      document.querySelector('#img').value = file.name;
+      alert(success.msg)
+  }
+  else if (virhe) {
+      alert(success.virhe)
+  }    
+  })
 .catch(error => {
   console.log(error)
   alert('Tiedostoa ei tallennettu.');
