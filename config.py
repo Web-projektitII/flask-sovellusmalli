@@ -15,6 +15,7 @@ class Config:
     FS_MAIL_SENDER = 'Flaskprojekti Admin <flaskprojekti@example.com>'
     FS_ADMIN = os.environ.get('FS_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    CORS_HEADERS = 'Content-Type'
     FS_POSTS_PER_PAGE = 25
     KUVAPALVELU = 'S3'
     KUVAPOLKU = os.environ.get('S3_DOMAIN')
@@ -30,9 +31,9 @@ class Config:
 
 class LocalConfig(Config):
     DEBUG = True
-    DB_USERNAME = os.environ.get('LOCAL_DB_USERNAME')
-    DB_PASSWORD = os.environ.get('LOCAL_DB_PASSWORD')
-    DB_NAME = os.environ.get('LOCAL_DB_NAME')
+    DB_USERNAME = os.environ.get('LOCAL_DB_USERNAME') or 'root'
+    DB_PASSWORD = os.environ.get('LOCAL_DB_PASSWORD') or ''
+    DB_NAME = os.environ.get('LOCAL_DB_NAME') or 'flask_sovellusmalli'
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':' + DB_PASSWORD + '@localhost:3306/' + DB_NAME
     # SQLALCHEMY_ECHO = True (dokumentaatio)
     SQLALCHEMY_ECHO = "debug"
@@ -64,6 +65,25 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    
+class AzureConfig(Config):
+    # pip install python-dotenv
+    # pip install pymysql
+    # from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
+    # luo uusi MySQL-tietokanta, esim. phpMyAdmin
+    # tallenna migrations-kansio uudella nimellä
+    # poista tarvittaessa vanha alembic-taulu
+    # uusi migraatioprosessi: flask db init, flask db migrate, flask db upgrade
+    DB_USERNAME = os.environ.get('AZURE_DB_USERNAME') or 'root'
+    DB_PASSWORD = os.environ.get('AZURE_DB_PASSWORD') or ''
+    DB_NAME = os.environ.get('AZURE_DB_NAME') or 'flask_sovellusmalli'
+    DB_SERVER = os.environ.get('AZURE_DB_SERVER') or 'localhost'
+
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':' + DB_PASSWORD + '@' + DB_SERVER + ':3306/' + DB_NAME
+    print("SQLALCHEMY_DATABASE_URI Azure-palvelimelle " + DB_SERVER)
+    # SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ECHO = "debug"
+
 
 config = {
     'development': DevelopmentConfig,
@@ -71,6 +91,6 @@ config = {
     'production': ProductionConfig,
     'local': LocalConfig,
     'heroku': HerokuConfig,
-
+    'azure': AzureConfig,
     'default': DevelopmentConfig
 }

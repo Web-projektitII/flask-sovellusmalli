@@ -23,7 +23,7 @@
 {% endif %}
 
 <div class="col-md-4">
-    {{ wtf.quick_form(form) }}
+{{ wtf.quick_form(form,novalidate=True,extra_classes='needs-validation') }}
 </div>
 {% endblock %}
 {% block scripts %}
