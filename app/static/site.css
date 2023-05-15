@@ -1,3 +1,8 @@
+.label-button {
+    border:2px solid #000;
+    background-color:#eee;
+    padding:1px 5px;
+    } 
 .td-keskitetty {text-align: center;}
 .invalid-feedback,.help-block{
     color:red;

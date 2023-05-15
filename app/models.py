@@ -5,7 +5,6 @@ from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
 
-
 class Permission:
     FOLLOW = 1
     COMMENT = 2
@@ -61,7 +60,8 @@ class Role(db.Model):
         self.permissions = 0
 
     def has_permission(self, perm):
-        return self.permissions & perm == perm
+        # Huom. tämä tulee tarkistaa, oli perm == perm
+        return self.permissions & self.permissions == perm
 
     def __repr__(self):
         return '<Role %r>' % self.name
@@ -81,6 +81,7 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    img = db.Column(db.String(64))
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
