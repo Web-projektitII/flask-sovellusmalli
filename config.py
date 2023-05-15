@@ -37,7 +37,7 @@ class LocalConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':' + DB_PASSWORD + '@localhost:3306/' + DB_NAME
     # SQLALCHEMY_ECHO = True (dokumentaatio)
     SQLALCHEMY_ECHO = "debug"
-    # WTF_CSRF_ENABLED = 
+    WTF_CSRF_ENABLED = True
     KUVAPALVELU = 'local'
     KUVAPOLKU = 'app/profiilikuvat/'
 
